@@ -4,26 +4,45 @@ var comingSong;
 var prevSongs = new Array();
 var errorCount = 0;
 
-$(document).ready(
-function () {
+$(document).ready(() => {
     var platform_promise = browser.runtime.getPlatformInfo();
     platform_promise.then((info) => {
         var isAndroid = info.os == "android";
         if(!isAndroid) {
-            browser.browserAction.setPopup({popup: "/popup.htm"});
+            browser.browserAction.setPopup({
+                popup: "/popup.htm"
+            });
         }
     });
+    browser.browserAction.onClicked.addListener(() => {
+        browser.tabs.create({
+            url: "/popup.htm"
+        });
+    });
+
+    browser.commands.onCommand.addListener((command) => {
+        browser.commands.getAll((commands) => {
+            console.log(commands);
+        });
+        console.log("Command!", command);
+        if(command === "play_pause") {
+            if(mp3Player.paused){
+                play(localStorage.lastStation);
+            } else {
+                mp3Player.pause();
+            }
+        }
+        if(command === "next_track") {
+            nextSong();
+        }
+    });
+
     if (localStorage.volume) {
         mp3Player.volume = localStorage.volume;
     }
     else {
         mp3Player.volume = .1;
     }
-    browser.browserAction.onClicked.addListener(() => {
-        browser.tabs.create({
-            url: "/popup.htm"
-        });
-    });
     $('#mp3Player')
     .bind('play', function () {
         try{
@@ -32,7 +51,7 @@ function () {
             callback.updatePlayer();
             currentSong.startTime = Math.round(new Date().getTime() / 1000);
         } catch(e){
-            //if it doesn't, don't draw here
+            //if the window doesn't exist, don't draw here
             return;
         }
     })
@@ -72,11 +91,15 @@ if (localStorage.username != '' && localStorage.password != '') {
 }
 
 function setCallbacks(updatePlayer,drawPlayer,downloadSong){
-	callback = {
+    callback = {
         "updatePlayer": updatePlayer,
         "drawPlayer": drawPlayer,
         "downloadSong": downloadSong
     };
+}
+
+function getCommands(callback) {
+    return browser.commands.getAll(callback);
 }
 
 function play(stationToken) {
@@ -99,14 +122,13 @@ function play(stationToken) {
 
 function nextSong() {
     if (currentPlaylist == undefined) {
-        getPlaylist(localSTorage.lastStation);
+        getPlaylist(localStorage.lastStation);
     }
     if (currentSong == undefined) {
         while (currentSong == undefined) {
             currentSong = currentPlaylist.shift();
         }
-    }
-    else {
+    } else {
         currentSong = comingSong;
     }
     if (currentPlaylist.length == 0) {
@@ -114,6 +136,8 @@ function nextSong() {
     }
     comingSong = currentPlaylist.shift();
 
+    /*
+    //notifications only?
     if (localStorage.notifications == "true") {
         var options = {
             type: "list",
@@ -135,26 +159,26 @@ function nextSong() {
         };
         xhr.send(null);
     }
+    */
     if (currentSong.additionalAudioUrl != null) {
         mp3Player.setAttribute("src", currentSong.additionalAudioUrl);
-    }
-    else {
+    } else {
         mp3Player.setAttribute("src", currentSong.audioUrlMap.highQuality.audioUrl);
     }
     mp3Player.play();
 }
 
 function downloadSong() {
-	var url='';
-	if (currentSong.additionalAudioUrl != null) {
-		console.log('Downloading alternate url');
-		console.log(currentSong);
-		url=currentSong.additionalAudioUrl;
-	}	else {
-		console.log('Downloading normal url');
-		console.log(currentSong);
-		url=currentSong.audioUrlMap.highQuality.audioUrl;
-	}
-	callback.downloadSong(url,currentSong.songName);
+    var url='';
+    if (currentSong.additionalAudioUrl != null) {
+        console.log('Downloading alternate url');
+        console.log(currentSong);
+        url=currentSong.additionalAudioUrl;
+    } else {
+        console.log('Downloading normal url');
+        console.log(currentSong);
+        url=currentSong.audioUrlMap.highQuality.audioUrl;
+    }
+    callback.downloadSong(url,currentSong.songName);
 }
 

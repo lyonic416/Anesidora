@@ -6,6 +6,23 @@ var errorCount = 0;
 
 $(document).ready(
 function () {
+    chrome.commands.onCommand.addListener((command) => {
+        chrome.commands.getAll((commands) => {
+            console.log(commands);
+        });
+        console.log("Command!", command);
+        if(command === "play_pause") {
+            if(mp3Player.paused){
+                play(localStorage.lastStation);
+            } else {
+                mp3Player.pause();
+            }
+        }
+        if(command === "next_track") {
+            nextSong();
+        }
+    });
+
     if (localStorage.volume) {
         mp3Player.volume = localStorage.volume;
     }
@@ -65,6 +82,10 @@ function setCallbacks(updatePlayer,drawPlayer,downloadSong){
         "drawPlayer": drawPlayer,
         "downloadSong": downloadSong
     };
+}
+
+function getCommands(callback) {
+    return chrome.commands.getAll(callback);
 }
 
 function play(stationToken) {

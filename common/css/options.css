@@ -4,20 +4,21 @@
     font-size: 12px; 
     font-weight:normal;
 }
+
 body {
 	background:linear-gradient(#0058c0,white) no-repeat;
 }
-#lastFmStatus
-{
-    padding: 10px 0px 0px 10px;
-}
+
 .options-group {
 	border: 1px solid black;
 	font-style: italic;
 }
 
+.option-title {
+	font-weight:bold;
+}
+
 .options-button {
-	margin-top:20px;
 	text-align:center;
 	width:100%; 
 	

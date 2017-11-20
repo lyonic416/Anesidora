@@ -91,7 +91,6 @@ function getPlaylist(stationToken) {
 
 function handleGetPlaylist(response, status, xhr) {
     currentPlaylist = response.result.items;
-    //currentPlaylist.pop(); //Pop goes the advertisment.
     removeAds(currentPlaylist);
 }
 
@@ -125,27 +124,14 @@ function addFeedback(songNum, rating) {
     sendRequest(false, true, "station.addFeedback", request, handleAddFeedback);
 }
 
-function handleAddFeedback(response, status, xhr) {
-
-}
-
 function sleepSong() {
     var request = "{'trackToken':'" + currentSong.trackToken + "','userAuthToken':'" + userAuthToken + "','syncTime':" + getSyncTime(syncTime) + "}";
     sendRequest(false, true, "user.sleepSong", request, handleSleepSong);
 }
 
-function handleSleepSong(response, info) {
-
-}
-
 function setQuickMix(mixStations) {
     var request = "{'quickMixStationIds':['" + mixStations.toString().replace(/,/g, "','") + "'],'userAuthToken':'" + userAuthToken + "','syncTime':" + getSyncTime(syncTime) + "}";
     sendRequest(false,true,"user.setQuickMix",request,handleSetQuickMix);
-}
-
-function handleSetQuickMix(response, status, xhr) {
-
-
 }
 
 function search(searchString) {
@@ -171,10 +157,6 @@ function handleCreateStation(response, status, xhr) {
 function deleteStation(stationToken) {
     var request = "{'stationToken':'" + stationToken + "','userAuthToken':'" + userAuthToken + "','syncTime':" + getSyncTime(syncTime) + "}";
     sendRequest(false, true, "station.deleteStation", request, handleDeleteStation);
-}
-
-function handleDeleteStation(response, info) {
-
 }
 
 function explainTrack() {
@@ -220,26 +202,15 @@ function sendRequest(secure, encrypted, method, request, handler) {
                         break;
                     default:
                         console.log(response);
-
                 }
-                if (method == "station.getPlaylist" && failed == false) {
+                if (method == "station.getPlaylist" && !failed) {
                     getPlaylist(sessionStorage.currentStation);
                     failed = true;
                 }
-
             }
             else {
                 handler(response, status, xhr);
             }
         }
-
     });
 }
-
-//Defunct for the time being.
-//function handleError(faultString) {
-//    //console.log(faultString.split("|")[3]);
-//    if (faultString.split("|")[2] == "AUTH_INVALID_TOKEN") {
-//        auth();
-//    }
-//}

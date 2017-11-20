@@ -4,9 +4,7 @@
   <meta charset="utf-8">
 	<title>Anesidora options</title>
 	<link href="css/options.css" rel="stylesheet" type="text/css" />
-
 	<script src="/js/jquery/jquery-3.2.1.min.js" type="text/javascript"></script>
-
 	<script src="js/options.js" type="text/javascript"></script>
 </head>
 <body >
@@ -17,41 +15,65 @@
 					<legend>Player Settings</legend>
 					<table>
 					<tr>
-						<td><label for="bodyWidth" style="font-weight:bold;">Player Width</label></td>
-						<td><input id=bodyWidth style="display:block" type=number min=310></input></td>
+						<td><label for="bodyWidth" class="option-title">Player Width</label></td>
+						<td><input id="bodyWidth" type=number min=310></input></td>
 					</tr>
 					<tr>
-						<td><label for="bodyHeight" style="font-weight:bold">Player Height</label></td>
-						<td><input id=bodyHeight type=number min=50></input></td>
+						<td><label for="bodyHeight" class="option-title">Player Height</label></td>
+						<td><input id="bodyHeight" type=number min=50></input></td>
 					</tr>
 					<tr>
-						<td><label for="historyNum" style="font-weight:bold;">History to Remember</label></td>
-						<td><input id=historyNum type=number min=1></input></td>
+						<td><label for="historyNum" class="option-title">History to Remember</label></td>
+						<td><input id="historyNum" type=number min=1></input></td>
 					</tr>
 					</table>
 
-					<button id="refresh" class="options-button">Refresh Stations</button>
+					<br />
+					<button id="refresh" class="options-button">Refresh Stations</button> <br />
+					<br />
 					<button id="reset" class="options-button">Logout</button>
 				</fieldset>
 				<br />
 				<fieldset class="options-group">
+					<legend>Shortcuts</legend>
+						<table>
+						<tr>
+							<td><label for="play_pause_shortcut" class="option-title">Play/Pause</label></td>
+							<td><input id="play_pause_shortcut" type=text></input</td>
+							<td><button id="play_pause_shortcut_button" class="options-button">Reset</button></td>
+						</tr>
+						<tr>
+							<td><label for="next_track_shortcut" class="option-title">Next Track</label></td>
+							<td><input id="next_track_shortcut" type=text></input</td>
+							<td><button id="next_track_shortcut_button" class="options-button">Reset</button></td>
+						</tr>
+						<tr>
+							<td><label for="open_popup_shortcut" class="option-title">Open Popup</label></td>
+							<td><input id="open_popup_shortcut" type=text></input</td>
+							<td><button id="open_popup_shortcut_button" class="options-button">Reset</button></td>
+						</tr>
+						</table>
+				</fieldset>
+				<br />
+				<fieldset class="options-group">
 					<legend>About this Version</legend>
-						<p>This 'port' of Anesidora adds several features and supports both Firefox and Chrome.</p>
-						<p>It also removes several of the outdated/non-functioning elemetns.</p>
+						<p>This version of Anesidora adds several features and supports both Firefox and Chrome.</p>
+						<p>It also removes several of the outdated/non-functioning elements.</p>
 						<p></p>
 						<p>More details about this project can be found on <a href="http://github.com/pvrs12/anesidora/">Github</a></p>
 				</fieldset>
 				<fieldset class="options-group">
 					<legend>About</legend>
 					<p>Anesidora is now an open-source project.</p>
-					<p>Join the development and report issues here:<strike> <a href="http://anesidora.tk">anesidora.tk</a></strike></p>
-						<p>Site is now defunct.</p>
-						<p>Originally forked from the <a href="http://github.com/anesidora/anesidora">Anesidora git</a></p>
+					<!--<p>Join the development and report issues here:<strike>anesidora.tk</strike></p>-->
+						<!--<p>Site is now defunct.</p>-->
+						<!--<p>Originally forked from the <a href="http://github.com/anesidora/anesidora">Anesidora git</a></p>-->
 					<p>Project contributors:</p>
 					<ul>
 						<li>Robert Alten</li>
 						<li>Demotis Silvermoon</li>
 						<li>BukeMan</li>
+						<li>pvrs12</li>
 					</ul>
 				</fieldset>
 			</div>
